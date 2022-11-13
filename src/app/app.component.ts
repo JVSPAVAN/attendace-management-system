@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'student-management-system';
   url: any;
   show: any;
+  user: any;
 
   constructor(
     private router: Router,
@@ -21,10 +22,11 @@ export class AppComponent implements OnInit {
     this.url = this.router.url;
     if (sessionStorage.getItem('login') == 'true') {
       this.show = true;
+      this.user = sessionStorage.getItem('user');
     } else {
       this.show = false;
+      this.user = "";
     }
-    //console.log("url ",this.url);
     this.httpDataSerice.getLoginReset().subscribe((status: any) => {
       if (status) {
         if (sessionStorage.getItem('login') == 'true') {
@@ -37,10 +39,10 @@ export class AppComponent implements OnInit {
 
   moduleChange(link: any) {
     this.url = link;
-    console.log('url ', this.url);
     if(link == 'login'){
       this.httpDataSerice.setLoginReset('false');
     }
     this.router.navigate(['./' + link]);
+    this.user = sessionStorage.getItem('user');
   }
 }

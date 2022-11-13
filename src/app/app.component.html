@@ -12,12 +12,17 @@
         <li class="nav-item" *ngIf="show">
             <a class="nav-link" (click)="moduleChange('students')" routerLink="/students">Students</a>
         </li>
+      </ul>
+      <ul class="d-flex navbar-nav mr-5 mt-2 mt-lg-0">
         <li class="nav-item" *ngIf="!show">
-            <a class="nav-link" (click)="moduleChange('login')" routerLink="/login">Login</a>
-        </li>
-        <li class="nav-item" *ngIf="show">
-          <a class="nav-link" (click)="moduleChange('login')" routerLink="/login">Logout</a>
+          <a class="nav-link" (click)="moduleChange('login')" routerLink="/login">Login</a>
       </li>
+      <li class="nav-item" *ngIf="show && url.includes('students')">
+        <a class="nav-link" >{{user}}</a>
+    </li>
+      <li class="nav-item" *ngIf="show">
+        <a class="nav-link" (click)="moduleChange('login')" routerLink="/login">Logout</a>
+    </li>
       </ul>
     </div>
   </nav>

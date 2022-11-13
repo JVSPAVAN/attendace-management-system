@@ -37,12 +37,9 @@ export class LoginComponent implements OnInit {
   login() {
     let userEmail = this.loginForm.controls['email'].value;
     let userPass = this.loginForm.controls['password'].value;
-    console.log('email: ', userEmail);
-    console.log('password: ', userPass);
     let userData = { email: userEmail, password: userPass };
     this.httpDataSerice.login().subscribe((data: any) => {
       if (data) {
-        console.log('user logged in successfully', data);
 
         data.forEach((element: any) => {
           if((element.user === userEmail) && (element.password === userPass)){
@@ -52,8 +49,8 @@ export class LoginComponent implements OnInit {
               sessionStorage.setItem('isAdmin', 'true');
             }else{
               sessionStorage.setItem('isAdmin', 'false');
-              sessionStorage.setItem('user', userEmail);
             }
+            sessionStorage.setItem('user', userEmail);
             this.router.navigate(['/' + 'home']);
           }
         });

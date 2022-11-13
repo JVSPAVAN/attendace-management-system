@@ -50,7 +50,6 @@ export class StudentComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAdmin = sessionStorage.getItem('isAdmin') == 'false' ? false : true;
-    console.log('admin ', this.isAdmin);
     this.selectedRow = null;
     this.getAllStudents();
   }
@@ -58,19 +57,19 @@ export class StudentComponent implements OnInit {
   getAllStudents() {
     this.httpDataSerice.getList().subscribe((response: any) => {
       this.dataSource.data = response;
+      this.httpDataSerice.getAttn().subscribe((response: any) => {
+        this.attendanceData = response;
+      });
       if (!this.isAdmin) {
         this.selectedRow = this.dataSource.data.filter(
           (element: any) => element.email == sessionStorage.getItem('user')
         )?.[0];
         this.getAttendance();
-        console.log('data ', this.selectedRow);
-        console.log('user ', sessionStorage.getItem('user'));
       } else {
-        if(!this.selectedDate){
+        if (!this.selectedDate) {
           this.date = new Date();
         }
       }
-
     });
   }
 
@@ -156,7 +155,7 @@ export class StudentComponent implements OnInit {
         return 'Present';
       } else if (absent && absent.includes(id)) {
         return 'Absent';
-      }else{
+      } else {
         return 'Absent';
       }
     }
@@ -168,38 +167,50 @@ export class StudentComponent implements OnInit {
       let event = new Date(this.date);
       let date = JSON.stringify(event);
       this.selectedDate = date.slice(1, 11);
-      let attn = this.attendanceData.filter((element: any) => element.date == this.selectedDate)?.[0];
+      let attn = this.attendanceData.filter(
+        (element: any) => element.date == this.selectedDate
+      )?.[0];
       let present = attn?.present || [];
       let absent = attn?.absent || [];
-      if (present?.includes(id)) {
+      if (present.includes(id)) {
         present = present.filter((obj: any) => {
           return obj !== id;
         });
-        absent.push(id);
-      } else if (absent?.includes(id)) {
+        if(!absent.includes(id)){ 
+          absent.push(id);}
+      } else if (absent.includes(id)) {
         absent = absent.filter((obj: any) => {
           return obj !== id;
         });
-        present.push(id);
+        if(!present.includes(id)){ 
+        present.push(id);}
       } else {
         present.push(id);
       }
-      attn = { id: attn?.id, date: this.selectedDate, present: present || [], absent: absent || [] };
+      attn = {
+        id: attn?.id,
+        date: this.selectedDate,
+        present: present || [],
+        absent: absent || [],
+      };
 
-      if(attn.id){
-      this.httpDataSerice
-        .updateAttn(attn)
-        .subscribe((response: any) => {
+      if (attn.id) {
+        this.httpDataSerice.updateAttn(attn).subscribe((response: any) => {
           this.cancelEdit();
           this.getAllStudents();
-        });}else{
-          const newAttn = { id: this.attendanceData.length + 1, date: this.selectedDate, present: present || [], absent: absent || [] };
-        this.httpDataSerice
-        .createAttn(newAttn)
-        .subscribe((response: any) => {
+        });
+      } else {
+        const newAttn = {
+          id: this.attendanceData.length + 1,
+          date: this.selectedDate,
+          present: present || [],
+          absent: absent || [],
+        };
+        this.httpDataSerice.createAttn(newAttn).subscribe((response: any) => {
           this.cancelEdit();
           this.getAllStudents();
-        });}
+        });
+      }
     } else {
       this._snackBar.open('Please select Date', 'Ok!!!', {
         duration: 3000,
@@ -207,13 +218,13 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  getAttendance(){
+  getAttendance() {
     this.attnStudent = [];
     this.attendanceData.forEach((element: any) => {
-      if(element.present.includes(this.selectedRow.id)){
-        this.attnStudent.push({"date":element.date, "attendance": "Present"});
-      }else{
-        this.attnStudent.push({"date":element.date, "attendance": "Absent"});
+      if (element.present.includes(this.selectedRow.id)) {
+        this.attnStudent.push({ date: element.date, attendance: 'Present' });
+      } else {
+        this.attnStudent.push({ date: element.date, attendance: 'Absent' });
       }
     });
   }
