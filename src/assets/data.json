@@ -1,0 +1,107 @@
+{
+  "students": [
+    {
+      "name": "sai",
+      "age": "23",
+      "mobile": "+1470655566",
+      "email": "test@gmail.com",
+      "address": "MO-64111",
+      "id": 1
+    },
+    {
+      "name": "teju",
+      "age": "22",
+      "mobile": "+1816445366",
+      "email": "teju@gmail.com",
+      "address": "MO-64112",
+      "id": 2
+    },
+    {
+      "name": "vamsi",
+      "age": 21,
+      "mobile": "+16344655566",
+      "email": "vamsi@gmail.com",
+      "address": "MO-64111",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "name": "rahman",
+      "age": 22,
+      "mobile": "+1816655566",
+      "email": "rahman@gmail.com",
+      "address": "MO-64111"
+    },
+    {
+      "name": "himu",
+      "age": "22",
+      "mobile": "+14855632566",
+      "email": "himu@gmail.com",
+      "address": "KS-64121",
+      "id": 5
+    }
+  ],
+  "login": [
+    {
+      "user": "hello",
+      "password": "12345"
+    },
+    {
+      "user": "teju@gmail.com",
+      "password": "12345"
+    },
+    {
+      "user": "admin",
+      "password": "admin"
+    }
+  ],
+  "attendance": [
+    {
+      "id": 1,
+      "date": "2022-11-12",
+      "present": [
+        2
+      ],
+      "absent": [
+        4,
+        5,
+        1
+      ]
+    },
+    {
+      "id": 2,
+      "date": "2022-11-13",
+      "present": [
+        3,
+        2,
+        1
+      ],
+      "absent": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": 3,
+      "date": "2022-11-14",
+      "present": [
+        2,
+        3
+      ],
+      "absent": [
+        4,
+        5,
+        1
+      ]
+    },
+    {
+      "id": 4,
+      "date": "2022-11-24",
+      "present": [
+        5,
+        1
+      ],
+      "absent": []
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+<mat-card class="mt-3">
+  <h3>Student Form</h3>
+  <form #studentForm="ngForm">
+    <mat-form-field class="m-2">
+      <input matInput placeholder="Name" name="name" required [(ngModel)]="studentData.name">
+    </mat-form-field>
+    <mat-form-field class="m-2">
+      <input matInput placeholder="Age" name="age" required [(ngModel)]="studentData.age">
+    </mat-form-field>
+    <mat-form-field class="m-2">
+      <input matInput placeholder="Mobile" name="mobile" required [(ngModel)]="studentData.mobile">
+    </mat-form-field>
+    <mat-form-field class="m-2">
+      <input matInput placeholder="Email" name="email" required [(ngModel)]="studentData.email">
+    </mat-form-field>
+    <mat-form-field class="m-2">
+      <input matInput placeholder="Address" name="address" required [(ngModel)]="studentData.address">
+    </mat-form-field>
+
+    <ng-container *ngIf="isEditMode; else elseTemplate">
+      <button mat-raised-button color="primary" (click)="updateItem(studentData.id, studentForm)">Update</button>&nbsp;
+      <a mat-raised-button color="warn" style="color: white;" (click)="cancelEdit()">Cancel</a>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <button mat-raised-button color="primary" [disabled]="!this.isAdmin" (click)="onSubmit(studentForm)">Add</button>
+    </ng-template>
+  </form>
+</mat-card>
+
+<div *ngIf="this.isAdmin">
+  <div>
+    <h3 class="mt-5" style="text-align: center; color: darkcyan;">STUDENTS</h3>
+  </div>
+  <div class="row m-2">
+  <div class="col-md-6 text-center">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+  </div>
+  <div class="col-md-6 text-center">
+  <mat-form-field appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker ></mat-datepicker>
+  </mat-form-field>
+</div>
+</div>
+  <div class="row col-md-12">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id. </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef> Age </th>
+        <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef> Mobile </th>
+        <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <a mat-raised-button color="primary" style="color: white;" (click)="editItem(element)">Edit</a>&nbsp; | &nbsp;
+          <a mat-raised-button color="warn" style="color: white;" (click)="deleteItem(element.id)">Delete</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="attendance">
+        <th mat-header-cell *matHeaderCellDef> Attendance </th>
+        <td mat-cell *matCellDef="let element">
+          <button type="button"  [class]="attn(element.id) == 'Present' ? 'btn btn-outline-primary m-2' :'btn btn-outline-danger m-2'" (click)="editAttn(element.id)">{{attn(element.id)}}</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        [class]="selectedRow?.id == row.id ? 'elementRowActive' : 'elementRow'" (click)="showStudentData(row)"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<mat-card class="mt-5" *ngIf="selectedRow" style="background-color: rgb(200, 231, 242);">
+  <div>
+    <h3 style="text-align: center; color: rgb(154, 82, 34);">Student Data</h3>
+  </div>
+  <div class="d-flex justify-content-center mt-2">
+    <table style="text-align: center;justify-content: center;">
+      <tr>
+        <td><strong>Id.</strong></td>
+        <td>{{selectedRow?.id}}</td>
+      </tr>
+      <tr>
+        <td><strong>Name</strong></td>
+        <td>{{selectedRow?.name}}</td>
+      </tr>
+      <tr>
+        <td><strong>Age</strong></td>
+        <td>{{selectedRow?.age}}</td>
+      </tr>
+      <tr>
+        <td><strong>Mobile</strong></td>
+        <td>{{selectedRow?.mobile}}</td>
+      </tr>
+      <tr>
+        <td><strong>Email</strong></td>
+        <td>{{selectedRow?.email}}</td>
+      </tr>
+      <tr>
+        <td><strong>Address</strong></td>
+        <td>{{selectedRow?.address}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="d-flex justify-content-center mt-2">
+    <button type="button" class="btn btn-outline-danger m-2" *ngIf="!this.isAdmin" (click)="editItem(selectedRow)">Edit</button>
+    <button type="button" class="btn btn-outline-danger m-2" *ngIf="this.isAdmin" (click)="close()">Close</button>
+  </div>
+</mat-card>
+
+<div class="row">
+    <div class="col-md-6">
+<mat-card class="mt-5" *ngIf="selectedRow && !this.isAdmin">
+    <div>
+      <h3 style="text-align: center; color: darkcyan;">Fees</h3>
+    </div>
+    <div class="d-flex justify-content-center mt-2">
+      <table style="text-align: center;justify-content: center;">
+        <tr>
+            <td><strong>Date</strong></td>&nbsp;&nbsp;
+            <td><strong>Fees Paid</strong></td>
+          </tr>
+        <tr>
+          <td>2022-08-12</td>&nbsp;&nbsp;
+          <td>$ 4000</td>
+        </tr>
+        <tr>
+            <td>2022-10-23</td>&nbsp;&nbsp;
+            <td>$ 1000</td>
+          </tr>
+          <tr>
+            <td>2022-11-12</td>&nbsp;&nbsp;
+            <td>$ 3000</td>
+          </tr>
+      </table>
+    </div>     
+     <br>
+     <div class="d-flex justify-content-center mt-2 mat-card" style="background-color: rgb(241, 167, 110);">
+    <span style="text-align: center;"><strong>Balance: </strong>&nbsp;&nbsp; $ 2000</span>
+</div>
+    <!-- <div class="d-flex justify-content-center mt-2">
+      <button type="button" class="btn btn-outline-danger m-2" *ngIf="!this.isAdmin" (click)="editItem(selectedRow)">Edit</button>
+      <button type="button" class="btn btn-outline-danger m-2" *ngIf="this.isAdmin" (click)="close()">Close</button>
+    </div> -->
+  </mat-card>
+</div>
+<div class="col-md-6">
+  <mat-card class="mt-5" *ngIf="selectedRow && !this.isAdmin">
+    <div>
+      <h3 style="text-align: center; color: darkcyan;">Attendance</h3>
+    </div>
+    <div class="d-flex justify-content-center mt-2">
+      <table style="text-align: center;justify-content: center;">
+        <tr>
+            <td><strong>Date</strong></td>
+            <td><strong>Attendance</strong></td>
+          </tr>
+        <tr *ngFor="let row of attnStudent">
+          <td>{{row.date}}</td>
+          <td [class]="row.attendance == 'Present' ? 'present' :'absent'">{{row.attendance}}</td>
+        </tr>
+      </table>
+    </div>
+    <!-- <div class="d-flex justify-content-center mt-2">
+      <button type="button" class="btn btn-outline-danger m-2" *ngIf="!this.isAdmin" (click)="editItem(selectedRow)">Edit</button>
+      <button type="button" class="btn btn-outline-danger m-2" *ngIf="this.isAdmin" (click)="close()">Close</button>
+    </div> -->
+  </mat-card>
+</div>
+</div>

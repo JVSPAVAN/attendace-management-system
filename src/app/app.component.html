@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand pl-4" href="#">Automation of University Data</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item" *ngIf="show">
+            <a class="nav-link" (click)="moduleChange('home')" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item" *ngIf="show">
+            <a class="nav-link" (click)="moduleChange('students')" routerLink="/students">Students</a>
+        </li>
+        <li class="nav-item" *ngIf="!show">
+            <a class="nav-link" (click)="moduleChange('login')" routerLink="/login">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="show">
+          <a class="nav-link" (click)="moduleChange('login')" routerLink="/login">Logout</a>
+      </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="col-md-12 p-0" style="overflow-y: auto; height: 62em;">
+    <div class="container p-0">
+    <router-outlet></router-outlet>
+  </div>
+  </div>

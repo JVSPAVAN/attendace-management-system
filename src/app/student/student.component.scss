@@ -1,0 +1,19 @@
+tr.elementRow:hover {
+    background: rgb(145, 173, 217);
+  }
+  
+  tr.elementRow:active {
+    background: #a3cbed;
+  }
+
+  tr.elementRowActive {
+    background: #a4caeb;
+  } 
+
+  td.present{
+color: green;
+  }
+
+  td.absent{
+    color: red;
+      }

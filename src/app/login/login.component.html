@@ -1,0 +1,28 @@
+<div style="background-color: rgb(160, 190, 247);height: 100%; width: 100%;">
+    <div class="card row panel container" style="background-color: rgb(145, 175, 231);" >
+        <div class="col-md-12 p-0">
+        <h1 class="mb-5 mt-5" style="color: white;text-shadow: 1em;">Login</h1>
+      <form class="col-md-12 mt-5 p-0" [formGroup]="loginForm" action="" method="post">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" formControlName="email">
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" formControlName="password">
+            <label for="floatingPassword">Password</label>
+          </div>
+        <!-- <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Email</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" formControlName="email">
+          </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Password</span>
+            <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" formControlName="password">
+          </div> -->
+        <div>
+          <button type="submit" class="btn btn-primary mt-5 mb-3" style="box-shadow: 1em;" (click)="login()">Login</button>
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
